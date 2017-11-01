@@ -48,7 +48,7 @@ inputs:
     inputBinding:
       position: 7
       shellQuote: false
-      valueFrom: '| samtools view -Shb -o $(self)'
+      valueFrom: '| samtools view -Shb -o $(self).bam'
 outputs:
   - id: outputBam
     type: File

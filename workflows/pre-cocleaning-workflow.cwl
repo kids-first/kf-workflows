@@ -36,13 +36,6 @@ steps:
     out:
       - id: outputBam
     run: ../tools/bwa-mem.cwl
-  - id: picard_markduplicates
-    in:
-      - id: inputBam
-        source: picard_sam_sort/sortedBam
-    out:
-      - id: markDupBam
-    run: ../tools/picard-markduplicates.cwl
   - id: picard_sam_sort
     in:
       - id: unsortedBam
@@ -50,3 +43,10 @@ steps:
     out:
       - id: sortedBam
     run: ../tools/picard-sortsam.cwl
+  - id: picard_markduplicates
+    in:
+      - id: inputBam
+        source: picard_sam_sort/sortedBam
+    out:
+      - id: markDupBam
+    run: ../tools/picard-markduplicates.cwl
