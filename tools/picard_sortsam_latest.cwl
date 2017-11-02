@@ -1,38 +1,31 @@
-class: CommandLineTool
 cwlVersion: v1.0
-id: picard_sam_sort
-label: picard-samsort
+class: CommandLineTool
+id: picard_samsort_latest
 requirements:
   - class: ResourceRequirement
     ramMin: 1000
     coresMin: 8
   - class: DockerRequirement
-    dockerPull: d3bcenter/alpine-picard
-baseCommand:
-  - java
+    dockerPull: d3bcenter/alpine-picard:latest
+baseCommand: [java, -jar, /picard.jar, SortSam]
 arguments:
-  - position: 0
-    prefix: -jar
-    valueFrom: /picard.jar
   - position: 1
-    valueFrom: SortSam
-  - position: 2
     valueFrom: CREATE_INDEX=true
-  - position: 3
+  - position: 2
     valueFrom: SORT_ORDER=coordinate
-  - position: 4
+  - position: 3
     prefix: OUTPUT=
     separate: false
-    valueFrom: $(inputs.unsortedBam.nameroot).sort.bam
+    valueFrom: $(inputs.input_bam.nameroot).sort.bam
 inputs:
-  - id: unsortedBam
+  input_bam:
     type: File
     inputBinding:
       position: 4
       prefix: 'INPUT='
       separate: false
 outputs:
-  - id: sortedBam
+  sorted_bam:
     type: File
     outputBinding:
       glob: '*.sort.bam'

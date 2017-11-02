@@ -1,40 +1,33 @@
-class: CommandLineTool
 cwlVersion: v1.0
-id: picard_markduplicates
-label: picard-markduplicates
+class: CommandLineTool
+id: picard_markduplicates_2.14.0
 requirements:
   - class: ResourceRequirement
     ramMin: 1000
     coresMin: 8
   - class: DockerRequirement
-    dockerPull: d3bcenter/alpine-picard
-baseCommand:
-  - java
+    dockerPull: d3bcenter/alpine-picard:2.14.0
+baseCommand: [java, -jar, /picard.jar, MarkDuplicates]
 arguments:
-  - position: 0
-    prefix: -jar
-    valueFrom: /picard.jar
   - position: 1
-    valueFrom: MarkDuplicates
-  - position: 2
     valueFrom: CREATE_INDEX=true
-  - position: 3
+  - position: 2
     valueFrom: VALIDATION_STRINGENCY=STRICT
-  - position: 4
+  - position: 3
     valueFrom: METRICS_FILE=marked_dup_metrics.txt
-  - position: 5
+  - position: 4
     prefix: 'OUTPUT='
     separate: false
-    valueFrom: $(inputs.inputBam.nameroot).markdup.bam
+    valueFrom: $(inputs.input_bam.nameroot).markdup.bam
 inputs:
-  - id: inputBam
+  input_bam:
     type: File
     inputBinding:
-      position: 6
+      position: 5
       prefix: 'INPUT='
       separate: false
 outputs:
-  - id: markDupBam
+  mark_duplicates_bam:
     type: File
     outputBinding:
       glob: '*.markdup.bam'
